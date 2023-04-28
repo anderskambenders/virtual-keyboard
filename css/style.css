@@ -45,6 +45,8 @@
   background-color: #292929;
   color: #F6F6F6;
   border-radius: 10px;
+  user-select: none;
+  transition: all 0.3s ease-in-out;
 
 }
 .key_wide {
@@ -53,7 +55,10 @@
 .key_space {
   width: 230px;
 }
-
+.key_active {
+  border-radius: 15px;
+  background-color: #FDDCC4;
+}
 .desc {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;

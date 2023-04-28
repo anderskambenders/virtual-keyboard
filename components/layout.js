@@ -23,7 +23,7 @@ function initLayout() {
   Object.entries(keysObj).forEach((key) => {
     const keyElement = document.createElement('div');
     const [keyEvent, keyVal] = key;
-    keyElement.classList.add('key');
+    keyElement.classList.add(`${keyEvent}`, 'key');
     if (keyWide.includes(keyEvent)) {
       keyElement.classList.add('key_wide');
     }
@@ -33,5 +33,42 @@ function initLayout() {
     keyElement.innerHTML = keyVal;
     keyboard.append(keyElement);
   });
+  const textareaKeyboardClick = (keyEvent) => {
+    const startArea = textarea.selectionStart;
+    const endArea = textarea.selectionEnd;
+    const textareaText = textarea.value.substring(0, startArea)
+              + keysObj[keyEvent.classList[0]] + textarea.value.substring(endArea);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = (startArea === endArea) ? (endArea + 1) : endArea;
+  };
+  const mouseClick = () => {
+    const keys = document.querySelectorAll('.key');
+    keys.forEach((key) => {
+      key.addEventListener('mousedown', () => {
+        textareaKeyboardClick(key);
+        key.classList.toggle('key_active');
+      });
+      key.addEventListener('mouseup', () => {
+        key.classList.toggle('key_active');
+      });
+    });
+    document.addEventListener('mouseup', () => {
+      keys.forEach(() => {
+        document.querySelector('.key').classList.remove('active');
+      });
+    });
+  };
+  const keyboardClick = () => {
+    document.addEventListener('keydown', (keyEvent) => {
+      document.querySelector(`.${keyEvent.code}`).classList.add('key_active');
+    });
+    document.addEventListener('keyup', (keyEvent) => {
+      document.querySelector(`.${keyEvent.code}`).classList.remove('key_active');
+    });
+  };
+
+  mouseClick();
+  keyboardClick();
 }
 export default initLayout;
