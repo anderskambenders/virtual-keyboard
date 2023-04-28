@@ -16,7 +16,7 @@
   margin: 0 auto;
   margin-bottom: 30px;
   padding: 15px;
-  width: 600px;
+  width: 620px;
   height: 120px;
   border-radius: 15px;
   border: 2px solid #131313;
@@ -24,12 +24,36 @@
 
 }
 .keyboard {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 1px;
+  column-gap: 2px;
   margin-bottom: 15px;
   width: 630px;
-  height: 300px;
+  height: 230px;
   border-radius: 10px;
   border: 2px solid #131313;
 }
+.key {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 12px;
+  width: 39px;
+  height: 31px;
+  background-color: #292929;
+  color: #F6F6F6;
+  border-radius: 10px;
+
+}
+.key_wide {
+  width: 83px;
+}
+.key_space {
+  width: 230px;
+}
+
 .desc {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
