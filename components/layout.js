@@ -9,6 +9,7 @@ function initLayout() {
   const keyboard = document.createElement('div');
   const desc = document.createElement('p');
   let lang = 'En';
+  let langIndex = 0;
   wrapper.classList.add('wrapper');
   document.body.append(wrapper);
   title.classList.add('title');
@@ -21,6 +22,7 @@ function initLayout() {
   desc.classList.add('desc');
   desc.innerHTML = 'Keyboard is created on MacOS. Use "shift" + "command" to switch language';
   wrapper.append(desc);
+
   const initKeys = () => {
     Object.entries(keysObj).forEach((key) => {
       const keyElement = document.createElement('div');
@@ -38,21 +40,78 @@ function initLayout() {
     });
   };
 
+  const textareaMouseClick = (keyEvent) => {
+    const startArea = textarea.selectionStart;
+    const endArea = textarea.selectionEnd;
+    if (keyEvent.classList[0] === 'Backspace') {
+      const textareaText = textarea.value.substring(0, startArea > 0 ? startArea - 1 : startArea)
+        + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = startArea > 0 ? endArea - 1 : endArea;
+    } else if (keyEvent.classList[0] === 'Enter') {
+      const enterVal = '\n';
+      const textareaText = textarea.value.substring(0, startArea)
+        + enterVal + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = endArea + 1;
+    } else if (keyEvent.classList[0] === 'Tab') {
+      const tabSymbol = '\t';
+      const textareaText = textarea.value.substring(0, startArea)
+        + tabSymbol + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = endArea + 1;
+    } else {
+      const textareaText = textarea.value.substring(0, startArea)
+              + keysObj[keyEvent.classList[0]][langIndex] + textarea.value.substring(endArea);
+      textarea.focus();
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = (startArea === endArea) ? (endArea + 1) : endArea;
+    }
+  };
+
   const textareaKeyboardClick = (keyEvent) => {
     const startArea = textarea.selectionStart;
     const endArea = textarea.selectionEnd;
-    const textareaText = textarea.value.substring(0, startArea)
-              + keysObj[keyEvent.classList[0]][1] + textarea.value.substring(endArea);
-    textarea.focus();
-    textarea.value = textareaText;
-    textarea.focus();
-    textarea.selectionEnd = (startArea === endArea) ? (endArea + 1) : endArea;
+    const target = document.querySelector(`.${keyEvent.code}`);
+    keyEvent.preventDefault();
+    if (keyEvent.code === 'Backspace') {
+      const textareaText = textarea.value.substring(0, startArea > 0 ? startArea - 1 : startArea)
+        + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = startArea > 0 ? endArea - 1 : endArea;
+    } else if (keyEvent.code === 'Enter') {
+      const enterSymbol = '\n';
+      const textareaText = textarea.value.substring(0, startArea)
+        + enterSymbol + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = endArea + 1;
+    } else if (keyEvent.code === 'Tab') {
+      const tabSymbol = '\t';
+      const textareaText = textarea.value.substring(0, startArea)
+        + tabSymbol + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = endArea + 1;
+    } else if (Object.keys(keysObj).includes(keyEvent.code)) {
+      const textareaText = textarea.value.substring(0, startArea)
+                  + target.textContent + textarea.value.substring(endArea);
+      textarea.value = textareaText;
+      textarea.focus();
+      textarea.selectionEnd = (startArea === endArea) ? (endArea + 1) : endArea;
+    }
   };
+
   const mouseClick = () => {
     const keys = document.querySelectorAll('.key');
     keys.forEach((key) => {
       key.addEventListener('mousedown', () => {
-        textareaKeyboardClick(key);
+        textareaMouseClick(key);
         key.classList.toggle('key_active');
       });
       key.addEventListener('mouseup', () => {
@@ -65,15 +124,35 @@ function initLayout() {
       });
     });
   };
+  const switchLanguages = () => {
+    const condition = document.querySelector('.ShiftLeft').classList.contains('key_active')
+    && document.querySelector('.MetaLeft').classList.contains('key_active');
+    if (condition && lang === 'En') {
+      lang = 'Ru';
+      langIndex = 1;
+      keyboard.innerHTML = '';
+      initKeys();
+      mouseClick();
+    } else if (condition && lang === 'Ru') {
+      lang = 'En';
+      langIndex = 0;
+      keyboard.innerHTML = '';
+      initKeys();
+      mouseClick();
+    }
+  };
   const keyboardClick = () => {
     document.addEventListener('keydown', (keyEvent) => {
+      textareaKeyboardClick(keyEvent);
       textarea.focus();
       document.querySelector(`.${keyEvent.code}`).classList.add('key_active');
     });
     document.addEventListener('keyup', (keyEvent) => {
+      switchLanguages();
       document.querySelector(`.${keyEvent.code}`).classList.remove('key_active');
     });
   };
+
   initKeys();
   mouseClick();
   keyboardClick();
