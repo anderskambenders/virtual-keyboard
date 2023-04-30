@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/extensions
-import keysObj from './keyboard.js';
+import { keysObj, elemsUnhandle } from './keyboard.js';
 
 function initLayout() {
   const keyWide = ['Backspace', 'CapsLock', 'Enter', 'Tab', 'ControlLeft'];
@@ -34,7 +34,7 @@ function initLayout() {
       if (keyEvent === 'Space') {
         keyElement.classList.add('key_space');
       }
-      const [keyValEn, keyValRu] = keyVal;
+      const [keyValEn, keyValEnCaps, keyValRu, keyValRuCaps] = keyVal;
       keyElement.innerHTML = (lang === 'En' ? keyValEn : keyValRu);
       keyboard.append(keyElement);
     });
@@ -63,7 +63,7 @@ function initLayout() {
       textarea.value = textareaText;
       textarea.focus();
       textarea.selectionEnd = endArea + 1;
-    } else {
+    } else if (!elemsUnhandle.includes(keyEvent.classList[0])) {
       const textareaText = textarea.value.substring(0, startArea)
               + keysObj[keyEvent.classList[0]][langIndex] + textarea.value.substring(endArea);
       textarea.focus();
@@ -98,7 +98,8 @@ function initLayout() {
       textarea.value = textareaText;
       textarea.focus();
       textarea.selectionEnd = endArea + 1;
-    } else if (Object.keys(keysObj).includes(keyEvent.code)) {
+    } else if (Object.keys(keysObj).includes(keyEvent.code)
+      && !elemsUnhandle.includes(keyEvent.code)) {
       const textareaText = textarea.value.substring(0, startArea)
                   + target.textContent + textarea.value.substring(endArea);
       textarea.value = textareaText;
@@ -129,7 +130,7 @@ function initLayout() {
     && document.querySelector('.MetaLeft').classList.contains('key_active');
     if (condition && lang === 'En') {
       lang = 'Ru';
-      langIndex = 1;
+      langIndex = 2;
       keyboard.innerHTML = '';
       initKeys();
       mouseClick();
