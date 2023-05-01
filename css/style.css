@@ -49,6 +49,9 @@
   transition: all 0.3s ease-in-out;
 
 }
+.key:hover {
+  background-color: #5c5c5c;
+}
 .key_wide {
   width: 83px;
 }
@@ -57,7 +60,7 @@
 }
 .key_active {
   border-radius: 15px;
-  background-color: #FDDCC4;
+  background-color: #5c5c5c;
 }
 .desc {
   text-align: center;

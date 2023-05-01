@@ -22,7 +22,7 @@ function initLayout() {
   keyboard.classList.add('keyboard');
   wrapper.append(keyboard);
   desc.classList.add('desc');
-  desc.innerHTML = 'Keyboard is created on MacOS. Use "shift" + "command" to switch language';
+  desc.innerHTML = 'Keyboard is created on MacOS. Use "left shift" + "left option" (alt) to switch language';
   wrapper.append(desc);
 
   const initKeys = () => {
@@ -222,7 +222,7 @@ function initLayout() {
   };
   const switchLanguages = () => {
     const condition = document.querySelector('.ShiftLeft').classList.contains('key_active')
-    && document.querySelector('.MetaLeft').classList.contains('key_active');
+    && document.querySelector('.AltLeft').classList.contains('key_active');
     if (condition && lang === 'En') {
       lang = 'Ru';
       switchSymbols(2);
