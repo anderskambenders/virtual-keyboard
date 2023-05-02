@@ -9,7 +9,6 @@ function initLayout() {
   const keyboard = document.createElement('div');
   const desc = document.createElement('p');
   let lang = 'En';
-  const langIndex = 0;
   let capsLockFlag = false;
   let shiftLockFlag = false;
   wrapper.classList.add('wrapper');
@@ -36,22 +35,10 @@ function initLayout() {
       if (keyEvent === 'Space') {
         keyElement.classList.add('key_space');
       }
-      const [keyValEn, keyValEnCaps, keyValRu, keyValRuCaps] = keyVal;
-      switch (langIndex) {
-        case 0:
-          keyElement.innerHTML = keyValEn;
-          break;
-        case 1:
-          keyElement.innerHTML = keyValEnCaps;
-          break;
-        case 2:
-          keyElement.innerHTML = keyValRu;
-          break;
-        case 3:
-          keyElement.innerHTML = keyValRuCaps;
-          break;
-        default:
-      }
+      const [keyValEn, , keyValRu, ,] = keyVal;
+      if (lang === 'En') {
+        keyElement.innerHTML = keyValEn;
+      } else { keyElement.innerHTML = keyValRu; }
       keyboard.append(keyElement);
     });
   };
@@ -267,9 +254,20 @@ function initLayout() {
       } else { document.querySelector(`.${keyEvent.code}`).classList.remove('key_active'); }
     });
   };
-
+  const getLocalStorage = () => {
+    if (localStorage.getItem('languge')) {
+      lang = localStorage.getItem('languge');
+    } else { lang = 'En'; }
+  };
+  const setLocalStorage = () => {
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('languge', lang);
+    });
+  };
+  getLocalStorage();
   initKeys();
   mouseClick();
   keyboardClick();
+  setLocalStorage();
 }
 export default initLayout;
