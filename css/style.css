@@ -1,0 +1,70 @@
+.wrapper {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.title {
+  margin: 0 auto;
+  padding: 70px;
+  text-align: center;
+  font-size: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #131313;
+}
+.textarea {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  padding: 15px;
+  width: 620px;
+  height: 120px;
+  border-radius: 15px;
+  border: 2px solid #131313;
+  background-color: #F6F6F6;
+
+}
+.keyboard {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 1px;
+  column-gap: 2px;
+  margin-bottom: 15px;
+  width: 630px;
+  height: 230px;
+  border-radius: 10px;
+  border: 2px solid #131313;
+}
+.key {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 12px;
+  width: 39px;
+  height: 31px;
+  background-color: #292929;
+  color: #F6F6F6;
+  border-radius: 10px;
+  user-select: none;
+  transition: all 0.3s ease-in-out;
+
+}
+.key:hover {
+  background-color: #5c5c5c;
+}
+.key_wide {
+  width: 83px;
+}
+.key_space {
+  width: 230px;
+}
+.key_active {
+  border-radius: 15px;
+  background-color: #5c5c5c;
+}
+.desc {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  color: #292929;
+}
